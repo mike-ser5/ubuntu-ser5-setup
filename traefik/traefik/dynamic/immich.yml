@@ -6,10 +6,11 @@ http:
         - websecure
       service: immich
       tls:
-        certResolver: cf
+        certResolver: le
 
   services:
     immich:
       loadBalancer:
         servers:
           - url: "http://immich-server:2283"
+
