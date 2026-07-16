@@ -1,0 +1,15 @@
+http:
+  routers:
+    node-red:
+      rule: "Host(`node-red.cobblestone`)"
+      entryPoints:
+        - websecure
+      service: node-red
+      tls:
+        certResolver: cf
+
+  services:
+    node-red:
+      loadBalancer:
+        servers:
+          - url: "http://node-red:1880"
