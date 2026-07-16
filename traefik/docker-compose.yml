@@ -5,6 +5,7 @@ services:
     image: traefik:latest
     container_name: traefik
     restart: unless-stopped
+
     command:
       - "--api.dashboard=true"
       - "--providers.file.directory=/dynamic"
@@ -16,10 +17,10 @@ services:
       # HTTPS
       - "--entrypoints.websecure.address=:443"
 
-      # Cloudflare DNS challenge
-      - "--certificatesresolvers.cf.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cf.acme.email=${CF_API_EMAIL}"
-      - "--certificatesresolvers.cf.acme.storage=/acme.json"
+      # Let’s Encrypt HTTP challenge
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=you@example.com"
+      - "--certificatesresolvers.le.acme.storage=/acme.json"
 
     ports:
       - "80:80"
@@ -32,9 +33,8 @@ services:
 
     environment:
       - TZ=America/New_York
-      - CF_API_EMAIL=${CF_API_EMAIL}
-      - CF_API_KEY=${CF_API_KEY}
 
 networks:
   default:
     name: traefik
+
