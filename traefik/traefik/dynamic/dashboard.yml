@@ -6,4 +6,4 @@ http:
         - websecure
       service: api@internal
       tls:
-        certResolver: cf
+        certResolver: le
