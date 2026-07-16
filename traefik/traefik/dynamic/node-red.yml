@@ -6,7 +6,7 @@ http:
         - websecure
       service: node-red
       tls:
-        certResolver: cf
+        certResolver: le
 
   services:
     node-red:
