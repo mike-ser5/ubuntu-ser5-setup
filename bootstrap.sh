@@ -22,31 +22,13 @@ sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker $USER
 
-echo "=== Creating Docker Folder Structure ==="
-mkdir -p ~/docker/{node-red,immich,traefik}
-mkdir -p ~/docker/traefik/dynamic
+echo "=== Preparing ACME Storage ==="
+cd ~/ubuntu-ser5-setup/traefik
+touch acme.json
+chmod 600 acme.json
 
-echo "=== Downloading Node-RED Compose ==="
-curl -o ~/docker/node-red/docker-compose.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/node-red/docker-compose.yml
-
-echo "=== Downloading Immich Compose ==="
-curl -o ~/docker/immich/docker-compose.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/immich/docker-compose.yml
-
-echo "=== Downloading Traefik Compose ==="
-curl -o ~/docker/traefik/docker-compose.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/traefik/docker-compose.yml
-
-echo "=== Downloading Traefik Dynamic Configs ==="
-curl -o ~/docker/traefik/dynamic/node-red.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/traefik/dynamic/node-red.yml
-
-curl -o ~/docker/traefik/dynamic/immich.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/traefik/dynamic/immich.yml
-
-curl -o ~/docker/traefik/dynamic/dashboard.yml \
-  https://raw.githubusercontent.com/mike-ser5/ubuntu-ser5-setup/main/traefik/dynamic/dashboard.yml
+echo "=== Creating Traefik Network ==="
+docker network create traefik || echo "Traefik network already exists"
 
 echo "=== Running TrueNAS Mount Script (if present) ==="
 if curl --output /dev/null --silent --head --fail \
@@ -57,15 +39,19 @@ else
 fi
 
 echo "=== Starting Traefik ==="
-cd ~/docker/traefik && docker compose up -d
-
-echo "=== Starting Node-RED ==="
-cd ~/docker/node-red && docker compose up -d
+cd ~/ubuntu-ser5-setup/traefik
+docker compose up -d
 
 echo "=== Starting Immich ==="
-cd ~/docker/immich && docker compose up -d
+cd ~/ubuntu-ser5-setup/immich
+docker compose up -d
+
+echo "=== Starting Node-RED ==="
+cd ~/ubuntu-ser5-setup/node-red
+docker compose up -d
 
 echo "=== SER5 Setup Complete ==="
 echo "Node-RED: https://node-red.cobblestone"
 echo "Immich:   https://immich.cobblestone"
 echo "Traefik:  https://traefik.cobblestone"
+
