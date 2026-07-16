@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:latest
+    container_name: immich-server
+    restart: unless-stopped
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./library:/app/library
+    ports:
+      - "2283:2283"
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:latest
+    container_name: immich-ml
+    restart: unless-stopped
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./model-cache:/cache
