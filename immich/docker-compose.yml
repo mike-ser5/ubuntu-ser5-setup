@@ -11,6 +11,8 @@ services:
       - ./library:/app/library
     ports:
       - "2283:2283"
+    networks:
+      - traefik
 
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:latest
@@ -20,3 +22,9 @@ services:
       - TZ=America/New_York
     volumes:
       - ./model-cache:/cache
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
