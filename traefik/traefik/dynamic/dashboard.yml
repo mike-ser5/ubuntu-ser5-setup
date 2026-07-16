@@ -3,7 +3,5 @@ http:
     traefik:
       rule: "Host(`traefik.cobblestone`)"
       entryPoints:
-        - websecure
+        - web
       service: api@internal
-      tls:
-        certResolver: le
