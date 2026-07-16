@@ -22,11 +22,6 @@ sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker $USER
 
-echo "=== Preparing ACME Storage ==="
-cd ~/ubuntu-ser5-setup/traefik
-touch acme.json
-chmod 600 acme.json
-
 echo "=== Creating Traefik Network ==="
 docker network create traefik || echo "Traefik network already exists"
 
@@ -51,8 +46,6 @@ cd ~/ubuntu-ser5-setup/node-red
 docker compose up -d
 
 echo "=== SER5 Setup Complete ==="
-echo "Node-RED: https://node-red.cobblestone"
-echo "Immich:   https://immich.cobblestone"
-echo "Traefik:  https://traefik.cobblestone"
-
-
+echo "Node-RED: http://node-red.cobblestone"
+echo "Immich:   http://immich.cobblestone"
+echo "Traefik:  http://traefik.cobblestone"
