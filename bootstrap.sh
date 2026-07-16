@@ -34,15 +34,15 @@ else
 fi
 
 echo "=== Starting Traefik ==="
-cd ~/ubuntu-ser5-setup/traefik
+cd /home/mike/ubuntu-ser5-setup/traefik
 docker compose up -d
 
 echo "=== Starting Immich ==="
-cd ~/ubuntu-ser5-setup/immich
+cd /home/mike/ubuntu-ser5-setup/immich
 docker compose up -d
 
 echo "=== Starting Node-RED ==="
-cd ~/ubuntu-ser5-setup/node-red
+cd /home/mike/ubuntu-ser5-setup/node-red
 docker compose up -d
 
 echo "=== SER5 Setup Complete ==="
