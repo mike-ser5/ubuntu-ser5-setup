@@ -11,24 +11,14 @@ services:
       - "--providers.file.directory=/dynamic"
       - "--providers.file.watch=true"
 
-      # HTTP
+      # HTTP only
       - "--entrypoints.web.address=:80"
-
-      # HTTPS
-      - "--entrypoints.websecure.address=:443"
-
-      # Let’s Encrypt HTTP challenge
-      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.le.acme.email=you@example.com"
-      - "--certificatesresolvers.le.acme.storage=/acme.json"
 
     ports:
       - "80:80"
-      - "443:443"
 
     volumes:
       - ./dynamic:/dynamic
-      - ./acme.json:/acme.json
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
     environment:
@@ -37,4 +27,3 @@ services:
 networks:
   default:
     name: traefik
-
