@@ -3,10 +3,8 @@ http:
     node-red:
       rule: "Host(`node-red.cobblestone`)"
       entryPoints:
-        - websecure
+        - web
       service: node-red
-      tls:
-        certResolver: le
 
   services:
     node-red:
