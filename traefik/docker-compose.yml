@@ -9,11 +9,32 @@ services:
       - "--api.dashboard=true"
       - "--providers.file.directory=/dynamic"
       - "--providers.file.watch=true"
+
+      # HTTP
       - "--entrypoints.web.address=:80"
+
+      # HTTPS
+      - "--entrypoints.websecure.address=:443"
+
+      # Cloudflare DNS challenge
+      - "--certificatesresolvers.cf.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.cf.acme.email=${CF_API_EMAIL}"
+      - "--certificatesresolvers.cf.acme.storage=/acme.json"
+
     ports:
       - "80:80"
+      - "443:443"
+
     volumes:
       - ./dynamic:/dynamic
+      - ./acme.json:/acme.json
       - /var/run/docker.sock:/var/run/docker.sock:ro
+
     environment:
       - TZ=America/New_York
+      - CF_API_EMAIL=${CF_API_EMAIL}
+      - CF_API_KEY=${CF_API_KEY}
+
+networks:
+  default:
+    name: traefik
