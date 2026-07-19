@@ -1,17 +1,36 @@
+version: "3.9"
+
 services:
   node-red:
     image: nodered/node-red:3.1.9
     container_name: node-red
     restart: unless-stopped
-    ports:
-      - "1880:1880"
+
+    networks:
+      traefik:
+      lan:
+        ipv4_address: 192.168.0.15   # Pick an unused LAN IP
+
     volumes:
       - ./data:/data
+
     environment:
       - TZ=America/New_York
-    networks:
-      - traefik
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.node-red.rule=Host(`node-red.yourdomain.com`)"
+      - "traefik.http.services.node-red.loadbalancer.server.port=1880"
 
 networks:
   traefik:
     external: true
+
+  lan:
+    driver: macvlan
+    driver_opts:
+      parent: eno1              # Your actual NIC
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1
