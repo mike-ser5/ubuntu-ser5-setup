@@ -3,8 +3,10 @@ services:
     image: nodered/node-red:latest
     container_name: node-red
     restart: unless-stopped
+
     ports:
-      - "1880:1880"
+      - "0.0.0.0:1880:1880"
+
     networks:
       - node-red_lan
       - traefik
