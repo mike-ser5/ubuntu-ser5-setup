@@ -4,11 +4,6 @@ services:
     container_name: node-red
     restart: unless-stopped
 
-    networks:
-      traefik:
-      lan:
-        ipv4_address: 192.168.0.15
-
     ports:
       - "1880:1880"
 
@@ -18,21 +13,16 @@ services:
     environment:
       - TZ=America/New_York
 
+    networks:
+      - traefik
+      - default
+
     labels:
       - "traefik.enable=false"
 
 networks:
   traefik:
     external: true
-
-  lan:
-    driver: macvlan
-    driver_opts:
-      parent: eno1
-    ipam:
-      config:
-        - subnet: 192.168.0.0/24
-          gateway: 192.168.0.1
 
 volumes:
   node_red_data:
