@@ -7,7 +7,10 @@ services:
     networks:
       traefik:
       lan:
-        ipv4_address: 192.168.0.15   # Pick an unused LAN IP
+        ipv4_address: 192.168.0.15
+
+    ports:
+      - "1880:1880"
 
     volumes:
       - ./data:/data
@@ -16,9 +19,7 @@ services:
       - TZ=America/New_York
 
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.node-red.rule=Host(`node-red.yourdomain.com`)"
-      - "traefik.http.services.node-red.loadbalancer.server.port=1880"
+      - "traefik.enable=false"
 
 networks:
   traefik:
@@ -27,7 +28,7 @@ networks:
   lan:
     driver: macvlan
     driver_opts:
-      parent: eno1              # Your actual NIC
+      parent: eno1
     ipam:
       config:
         - subnet: 192.168.0.0/24
