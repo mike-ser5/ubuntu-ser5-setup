@@ -8,6 +8,7 @@ services:
       - "0.0.0.0:1880:1880"
 
     networks:
+      - default
       - node-red_lan
       - traefik
 
@@ -16,3 +17,5 @@ networks:
     external: true
   traefik:
     external: true
+  default:
+    driver: bridge
