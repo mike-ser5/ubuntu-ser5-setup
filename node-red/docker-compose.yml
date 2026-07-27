@@ -3,8 +3,6 @@ services:
     image: nodered/node-red:latest
     container_name: node-red
     restart: unless-stopped
-
     network_mode: host
-
     volumes:
       - ./data:/data
