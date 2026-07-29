@@ -4,5 +4,7 @@ services:
     container_name: node-red
     restart: unless-stopped
     network_mode: host
+    working_dir: /data
     volumes:
       - ./data:/data
+
